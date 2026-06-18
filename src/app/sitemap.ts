@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/data/content";
 
+export const dynamic = "force-static";
+
 const base = "https://consciousspaces.example.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
