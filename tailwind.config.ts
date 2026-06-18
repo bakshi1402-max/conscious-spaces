@@ -8,13 +8,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ivory: "#F5F2EC",
-        sand: "#E9E2D6",
-        stone: "#A89E8E",
-        clay: "#8C7A65",
-        bark: "#54483A",
-        charcoal: "#1E1B17",
-        ink: "#15130F",
+        ivory: "#FBF3E4",
+        sand: "#F2E8D5",
+        stone: "#B3A38C",
+        clay: "#9C8569",
+        bark: "#5A4D3C",
+        charcoal: "#241D14",
+        ink: "#1A1510",
       },
       fontFamily: {
         serif: ["var(--font-serif)", "Georgia", "serif"],

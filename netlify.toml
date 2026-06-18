@@ -1,14 +1,10 @@
-# Netlify configuration for a Next.js (App Router) site.
-# The official Next.js runtime plugin handles SSR, image optimization, and routing.
-# IMPORTANT: do NOT set a "publish" directory here or in the Netlify UI —
-# the plugin manages it. If the UI has a publish dir set to the repo root,
-# clear it (Site config -> Build & deploy -> Build settings).
+# Static export config — works with Netlify Drop OR Git.
+# `next build` with output:"export" in next.config.js produces an `out/` folder.
+# No Next.js runtime plugin is needed for a static export.
 
 [build]
   command = "npm run build"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+  publish = "out"
 
 [build.environment]
   NODE_VERSION = "20"

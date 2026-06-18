@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --color-ivory: #f5f2ec;
-  --color-sand: #e9e2d6;
-  --color-stone: #a89e8e;
-  --color-clay: #8c7a65;
-  --color-bark: #54483a;
-  --color-charcoal: #1e1b17;
-  --color-ink: #15130f;
+  --color-ivory: #fbf3e4;
+  --color-sand: #f2e8d5;
+  --color-stone: #b3a38c;
+  --color-clay: #9c8569;
+  --color-bark: #5a4d3c;
+  --color-charcoal: #241d14;
+  --color-ink: #1a1510;
   --header-height: 96px;
 }
 

@@ -1,128 +1,110 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { heroSlides } from "@/data/content";
 
+const categories = ["Wellness", "Hospitality", "Residential"];
+
 export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
 
-  // Scroll progress across a tall (200vh) container drives the card expansion.
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Card grows from a centered ~38vw/60vh card to full-bleed.
-  const width = useTransform(scrollYProgress, [0, 0.85], ["38vw", "100vw"]);
-  const height = useTransform(scrollYProgress, [0, 0.85], ["60vh", "100vh"]);
-  const radius = useTransform(scrollYProgress, [0, 0.85], [2, 0]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0, 0.35]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  const labelOpacity = useTransform(scrollYProgress, [0.55, 0.8], [0, 1]);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   const slide = heroSlides[index];
 
   return (
-    <section ref={containerRef} className="relative h-[260vh] bg-charcoal">
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-        {/* Background label that fades in as card fills */}
+    <section className="relative h-[100svh] w-full overflow-hidden bg-charcoal">
+      {/* Full-bleed crossfading image */}
+      <AnimatePresence mode="sync">
         <motion.div
-          style={{ opacity: textOpacity }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          key={slide.src}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0"
         >
-          <div className="text-center">
-            <p className="eyebrow text-ivory/60 mb-6">Interior Design Studio</p>
-            <h1 className="font-serif text-ivory text-[12vw] leading-[0.9] tracking-tight">
-              Conscious
-            </h1>
-          </div>
-        </motion.div>
-
-        {/* Expanding card */}
-        <motion.div
-          style={{ width, height, borderRadius: radius }}
-          className="relative overflow-hidden will-change-[width,height]"
-        >
-          <AnimatePresence mode="sync">
-            <motion.div
-              key={slide.src}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover"
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          <motion.div
-            style={{ opacity: overlayOpacity }}
-            className="absolute inset-0 bg-black"
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
-
-          {/* Slide counter + See Details (visible while card is small) */}
-          <motion.div
-            style={{ opacity: textOpacity }}
-            className="absolute inset-0 flex flex-col justify-between p-5 md:p-7"
-          >
-            <span className="eyebrow text-ivory/90">
-              {String(index + 1).padStart(2, "0")} / {String(heroSlides.length).padStart(2, "0")}
-            </span>
-            <div className="self-center">
-              <Link
-                href={slide.href}
-                className="eyebrow text-ivory border border-ivory/60 rounded-full px-5 py-2 backdrop-blur-sm hover:bg-ivory hover:text-ink transition-colors duration-300"
-              >
-                See Details
-              </Link>
-            </div>
-            <span className="eyebrow text-ivory/90 self-end">{slide.title}</span>
-          </motion.div>
-
-          {/* Full-bleed title + CTA (fades in once expanded) */}
-          <motion.div
-            style={{ opacity: labelOpacity }}
-            className="absolute inset-0 flex flex-col justify-end p-6 md:p-12"
-          >
-            <div className="container-edge w-full flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <h2 className="font-serif text-ivory text-display-md md:text-display-lg">
-                {slide.title}
-              </h2>
-              <Link href={slide.href} className="btn-pill border-ivory text-ivory w-fit">
-                <span>See Project Detail</span>
-              </Link>
-            </div>
-          </motion.div>
+          <div className="absolute inset-0 bg-black/20" />
         </motion.div>
+      </AnimatePresence>
 
-        {/* Slide selector dots */}
-        <motion.div
-          style={{ opacity: textOpacity }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10"
-        >
-          {heroSlides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              aria-label={`Show project ${i + 1}`}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                i === index ? "bg-ivory w-6" : "bg-ivory/40"
-              }`}
-            />
-          ))}
-        </motion.div>
+      {/* Vertical category word on the left */}
+      <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 z-10 hidden md:block">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={categories[index % categories.length]}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 0.5, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.8 }}
+            className="font-serif text-ivory text-2xl tracking-[0.5em] uppercase"
+            style={{ writingMode: "vertical-rl" }}
+          >
+            {categories[index % categories.length]}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
+      {/* Persistent centerline with counter / title / link */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 z-10">
+        <div className="relative">
+          <div className="h-px w-full bg-ivory/40" />
+          <div className="container-edge absolute inset-x-0 -top-7 flex items-center justify-between">
+            <div className="flex items-center gap-6 md:gap-10">
+              <span className="eyebrow text-ivory">
+                {index + 1} / {heroSlides.length}
+              </span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={slide.title}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-ivory text-base md:text-lg tracking-wide"
+                >
+                  {slide.title}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+            <Link
+              href={slide.href}
+              className="eyebrow text-ivory link-underline hidden sm:inline-block"
+            >
+              See Work Detail
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Slide selector dots */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+        {heroSlides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Show project ${i + 1}`}
+            className={`h-[2px] transition-all duration-500 ${
+              i === index ? "bg-ivory w-10" : "bg-ivory/40 w-5"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );

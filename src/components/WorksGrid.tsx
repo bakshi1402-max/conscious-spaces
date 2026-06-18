@@ -42,7 +42,7 @@ export function WorksGrid({ projects }: { projects: Project[] }) {
       <div className="container-edge">
         <motion.div
           layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-14 md:gap-y-20"
+          className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-14 md:gap-y-20"
         >
           <AnimatePresence mode="popLayout">
             {filtered.map((project, i) => (
@@ -70,14 +70,21 @@ export function WorksGrid({ projects }: { projects: Project[] }) {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-start justify-between pt-5">
-                    <div>
-                      <h3 className="font-serif text-2xl md:text-[1.7rem] leading-tight">
-                        {project.title}
-                      </h3>
-                      <p className="eyebrow text-clay mt-2">{project.type}</p>
+                  <h3 className="text-xl md:text-2xl leading-tight pt-5 mb-4">
+                    {project.title}
+                  </h3>
+                  <div className="border-t border-bark/20 pt-4 flex items-start justify-between">
+                    <div className="flex gap-8">
+                      <div>
+                        <p className="text-[0.7rem] text-stone uppercase tracking-wide">Type</p>
+                        <p className="text-sm text-bark mt-1">{project.type}</p>
+                      </div>
+                      <div>
+                        <p className="text-[0.7rem] text-stone uppercase tracking-wide">Completion</p>
+                        <p className="text-sm text-bark mt-1">{project.year}</p>
+                      </div>
                     </div>
-                    <span className="eyebrow text-stone pt-1">{project.year}</span>
+                    <span className="eyebrow text-bark pt-1">{project.category}</span>
                   </div>
                 </Link>
               </motion.div>

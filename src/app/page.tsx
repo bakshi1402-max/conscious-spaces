@@ -1,6 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { StatementSection } from "@/components/StatementSection";
-import { GalleryMarquee } from "@/components/GalleryMarquee";
+import { WorksReveal } from "@/components/WorksReveal";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { FAQSection } from "@/components/FAQSection";
 
@@ -9,7 +9,7 @@ export default function HomePage() {
     <>
       <Hero />
       <StatementSection />
-      <GalleryMarquee />
+      <WorksReveal />
       <ProjectShowcase />
       <FAQSection />
     </>

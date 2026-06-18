@@ -28,7 +28,7 @@ export function FAQSection() {
                   <span className="eyebrow text-stone w-8 shrink-0 pt-1 md:pt-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-serif text-xl md:text-3xl flex-1 group-hover:text-clay transition-colors duration-300">
+                  <span className="text-base md:text-lg flex-1 uppercase tracking-wide font-medium text-bark group-hover:text-ink transition-colors duration-300">
                     {faq.question}
                   </span>
                   <span className="relative w-6 h-6 shrink-0 mt-1 md:mt-0">
