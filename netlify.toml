@@ -1,21 +1,14 @@
-import type { Metadata } from "next";
-import { PageHeader } from "@/components/PageHeader";
-import { WorksGrid } from "@/components/WorksGrid";
-import { projects } from "@/data/content";
+# Netlify configuration for a Next.js (App Router) site.
+# The official Next.js runtime plugin handles SSR, image optimization, and routing.
+# IMPORTANT: do NOT set a "publish" directory here or in the Netlify UI —
+# the plugin manages it. If the UI has a publish dir set to the repo root,
+# clear it (Site config -> Build & deploy -> Build settings).
 
-export const metadata: Metadata = {
-  title: "Works",
-  description:
-    "Selected interior design projects by Conscious Spaces — residential, hospitality, and wellness spaces designed around light and material.",
-};
+[build]
+  command = "npm run build"
 
-export default function WorksPage() {
-  return (
-    <>
-      <PageHeader title="Works" subtitle="Selected projects" />
-      <section className="pb-28 md:pb-40">
-        <WorksGrid projects={projects} />
-      </section>
-    </>
-  );
-}
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "20"
